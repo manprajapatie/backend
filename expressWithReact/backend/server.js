@@ -16,7 +16,7 @@ app.get('/', function(req, res){
 
 app.get('/api/massage', function(req, res){
     //res.json() send data to frontend
-    res.json({massage: "Hello from backend side"})
+    res.json({massage: "Hello from backend side 2"})
 })
 
 
