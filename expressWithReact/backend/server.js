@@ -9,15 +9,33 @@ const app = express()
 //they both are middlewhere (app.use()) but we don't write next in them because cors() and express.json both are buildin express methods that contain next inside them.
 app.use(cors())
 app.use(express.json())
+app.use(express.static('./public'));
 
-app.get('/', function(req, res){
-    res.send("Hello World This is working")
-})
+//To show error
+app.get('/error', function(req, res, next) {
+  next(new Error("Something went wrong"));
+});
 
-app.get('/api/massage', function(req, res){
+
+app.get('/api/massage', function (req, res) {
     //res.json() send data to frontend
-    res.json({massage: "Hello from backend side 2"})
+    res.json({ massage: "Hello from backend side 2" })
 })
+
+//Error Handler should be place in last
+app.use(
+    function errorHandler(err, req, res, next) {
+        if (res.headersSent) {
+            return next(err)
+        }
+        res.status(500).json(
+            {
+                success: false,
+                message: err.message || "Internal Server Error"
+            }
+        )
+    }
+)
 
 
 
